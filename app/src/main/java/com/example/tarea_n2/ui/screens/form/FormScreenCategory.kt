@@ -2,10 +2,13 @@ package com.example.tarea_n2.ui.screens.form
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -15,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.tarea_n2.ui.components.BotonForm
+import com.example.tarea_n2.ui.components.Icono
 import com.example.tarea_n2.ui.components.InputForm
 import com.example.tarea_n2.ui.navigation.Home
 
@@ -26,14 +30,17 @@ fun FormScreenCategory(navController: NavHostController, formViewModel: FormView
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "Nueva Categoría",
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(bottom = 24.dp)
-            )
+            Row() {
+                Icono(icono = Icons.Default.DateRange)
+                Text(
+                    text = "Nueva Categoria",
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier.padding(bottom = 24.dp)
+                )
+            }
 
             InputForm(
-                label = "Nombre de la categoría",
+                label = "Ingrese el nombre de la categoria",
                 value = formViewModel.nombre,
                 onValueChange = { formViewModel.nombre = it },
                 error = formViewModel.nombreError
@@ -42,7 +49,7 @@ fun FormScreenCategory(navController: NavHostController, formViewModel: FormView
             Spacer(modifier = Modifier.size(22.dp))
 
             InputForm(
-                label = "Nombre del encargado",
+                label = "Ingrese el nombre del encargado",
                 value = formViewModel.encargado,
                 onValueChange = { formViewModel.encargado = it },
                 error = formViewModel.encargadoError
@@ -51,7 +58,7 @@ fun FormScreenCategory(navController: NavHostController, formViewModel: FormView
             Spacer(modifier = Modifier.size(32.dp))
 
             BotonForm(
-                texto = "Añadir Categoría",
+                texto = "Añadir Categoria",
                 onClick = { formViewModel.addCategory() }
             )
 

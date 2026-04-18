@@ -13,6 +13,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.tarea_n2.ui.components.BotonForm
+import com.example.tarea_n2.ui.components.Icono
 import com.example.tarea_n2.ui.navigation.FormCategory
 import com.example.tarea_n2.ui.screens.form.FormViewModelCategory
 import com.example.tarea_n2.ui.screens.form.FormViewModelEvent
@@ -67,12 +70,14 @@ fun HomeScreen(navController: NavController, viewModel: FormViewModelCategory, v
             ) {
                 BotonForm(
                     texto = "Registro Categoria",
-                    onClick = { navController.navigate(FormCategory) }
+                    onClick = { navController.navigate(FormCategory) },
+                    modifier = Modifier.weight(1f)
                 )
 
                 BotonForm(
                     texto = "Registro Evento",
-                    onClick = {  }
+                    onClick = {  },
+                    modifier = Modifier.weight(1f)
                 )
             }
         }
@@ -96,12 +101,15 @@ fun GridCards(viewModel: FormViewModelCategory, viewModeltwo: FormViewModelEvent
     ) {
         for (categoria in viewModel.listCategory) {
             item(span = { GridItemSpan(maxLineSpan) }) {
-                Text(
-                    text = categoria.nombre,
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(bottom = 3.dp)
-                )
+                Row() {
+                    Icono(icono = Icons.Default.DateRange)
+                    Text(
+                        text = categoria.nombre,
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(bottom = 3.dp),
+                    )
+                }
             }
 
             items(viewModeltwo.listEvent.filter { it.category == categoria.nombre }) {
