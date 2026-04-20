@@ -21,10 +21,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -34,7 +30,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.tarea_n2.ui.components.BotonForm
 import com.example.tarea_n2.ui.components.Icono
+import com.example.tarea_n2.ui.navigation.Detail
 import com.example.tarea_n2.ui.navigation.FormCategory
+import com.example.tarea_n2.ui.navigation.FormEvent
 import com.example.tarea_n2.ui.screens.form.FormViewModelCategory
 import com.example.tarea_n2.ui.screens.form.FormViewModelEvent
 
@@ -76,67 +74,60 @@ fun HomeScreen(navController: NavController, viewModel: FormViewModelCategory, v
 
                 BotonForm(
                     texto = "Registro Evento",
-                    onClick = {  },
+                    onClick = { navController.navigate(FormEvent) },
                     modifier = Modifier.weight(1f)
                 )
             }
         }
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
-            GridCards(viewModel,viewModeltwo)
+            GridCards(navController, viewModel, viewModeltwo)
         }
     }
 }
 
 @Composable
-fun GridCards(viewModel: FormViewModelCategory, viewModeltwo: FormViewModelEvent) {
-
-    var selected by remember { mutableIntStateOf(0) }
-
+fun GridCards(navController: NavController, viewModel: FormViewModelCategory, viewModeltwo: FormViewModelEvent) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(1),
         contentPadding = PaddingValues(horizontal = 50.dp, vertical = 20.dp),
         horizontalArrangement = Arrangement.spacedBy(20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        for (categoria in viewModel.listCategory) {
+        viewModel.listCategory.forEach { categoria ->
             item(span = { GridItemSpan(maxLineSpan) }) {
-                Row() {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Icono(icono = Icons.Default.DateRange)
                     Text(
                         text = categoria.nombre,
                         style = MaterialTheme.typography.headlineMedium,
                         color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(bottom = 3.dp),
+                        modifier = Modifier.padding(start = 8.dp),
                     )
                 }
             }
 
-            items(viewModeltwo.listEvent.filter { it.category == categoria.nombre }) {
+            items(viewModeltwo.listEvent.filter { it.category == categoria.nombre }) { evento ->
                 Card(
                     colors = CardDefaults.cardColors(),
-                    onClick = { selected = it.id }
+                    onClick = { navController.navigate(Detail(evento.id)) }
                 ) {
                     Column(
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                        modifier = Modifier.fillMaxWidth().padding(16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Row(
-                            modifier = Modifier.padding(top = 10.dp).fillMaxWidth(.9f),
-                            horizontalArrangement = Arrangement.Start
-                        ) {
-                            Text(it.nombre)
-                        }
+                        Text(
+                            text = evento.nombre,
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = evento.fecha_hora,
+                            style = MaterialTheme.typography.bodySmall
+                        )
                     }
                 }
-
             }
         }
     }
 }
-
-
-
-
-
-

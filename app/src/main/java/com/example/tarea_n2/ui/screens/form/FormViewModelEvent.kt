@@ -8,9 +8,20 @@ import androidx.lifecycle.ViewModel
 class FormViewModelEvent : ViewModel(){
     var nombre by mutableStateOf("")
     var fecha_hora by mutableStateOf("")
+    var lugar by mutableStateOf("")
+    var representante by mutableStateOf("")
+    var imagen by mutableStateOf("")
     var category by mutableStateOf("")
+    
     var listEvent = mutableListOf<Event>()
     var ultimoid = 0
+
+    var nombreError by mutableStateOf<String?>(null)
+    var fechaHoraError by mutableStateOf<String?>(null)
+    var lugarError by mutableStateOf<String?>(null)
+    var representanteError by mutableStateOf<String?>(null)
+    var imagenError by mutableStateOf<String?>(null)
+    var categoryError by mutableStateOf<String?>(null)
 
     init {
         cargarDatos()
@@ -18,25 +29,56 @@ class FormViewModelEvent : ViewModel(){
 
     fun cargarDatos() {
         val datos = listOf(
-            Event(1, "Final Champions League", "2026-05-30 21:00", "Deportes"),
-            Event(2, "Concierto Dua Lipa", "2026-06-15 20:00", "Musica"),
-            Event(3, "Lanzamiento Android 17", "2026-08-10 10:00", "Tecnologia"),
-            Event(4, "Feria Gastronomica", "2026-09-05 12:00", "Musica"),
-            Event(5, "Feria Gastronomica", "2026-09-05 12:00", "Musica")
+            Event(1, "Final Champions League", "2026-05-30 21:00", "Estadio Wembley", "UEFA", "https://example.com/champions.jpg", "Deportes"),
+            Event(2, "Concierto Dua Lipa", "2026-06-15 20:00", "Estadio Nacional", "Warner Music", "https://example.com/dualipa.jpg", "Musica"),
+            Event(3, "Lanzamiento Android 17", "2026-08-10 10:00", "Google HQ", "Google", "https://example.com/android.jpg", "Tecnologia"),
+            Event(4, "Feria Gastronomica", "2026-09-05 12:00", "Parque Bustamante", "Municipalidad", "", "Musica")
         )
 
         listEvent.addAll(datos)
         ultimoid = datos.size
     }
 
-    fun addEvent(){
-        ultimoid++
+    fun validar(): Boolean {
+        var valido = true
+        nombreError = if (nombre.isBlank()) "Campo obligatorio" else null
+        fechaHoraError = if (fecha_hora.isBlank()) "Campo obligatorio" else null
+        lugarError = if (lugar.isBlank()) "Campo obligatorio" else null
+        representanteError = if (representante.isBlank()) "Campo obligatorio" else null
+        // La imagen ahora es opcional, no validamos si está vacía
+        imagenError = null 
+        categoryError = if (category.isBlank()) "Seleccione una categoría" else null
 
-        listEvent.add(Event(ultimoid, nombre, fecha_hora,category ))
+        if (nombreError != null || fechaHoraError != null || lugarError != null || 
+            representanteError != null || categoryError != null) valido = false
+        
+        return valido
+    }
+
+    fun addEvent(){
+        if(validar()) {
+            ultimoid++
+            listEvent.add(Event(ultimoid, nombre, fecha_hora, lugar, representante, imagen, category))
+            resetForm()
+        }
+    }
+
+    private fun resetForm() {
         nombre = ""
         fecha_hora = ""
+        lugar = ""
+        representante = ""
+        imagen = ""
         category = ""
     }
 }
 
-class Event(val id:Int, val nombre: String, val fecha_hora: String, val category: String)
+class Event(
+    val id: Int,
+    val nombre: String,
+    val fecha_hora: String,
+    val lugar: String,
+    val representante: String,
+    val imagen: String,
+    val category: String
+)
