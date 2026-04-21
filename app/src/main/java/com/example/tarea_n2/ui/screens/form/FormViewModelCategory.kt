@@ -21,9 +21,9 @@ class FormViewModelCategory : ViewModel(){
     fun cargarDatos() {
 
         val datos = listOf(
-            Category(1, "Deportes", "Juan Perez"),
-            Category(2, "Musica", "Ana Garcia"),
-            Category(3, "Tecnologia", "Carlos Ruiz")
+            Category(1, "Conciertos", "Juan Perez"),
+            Category(2, "Conferencias", "Ana Garcia"),
+            Category(3, "Talleres", "Carlos Ruiz")
         )
 
         listCategory.addAll(datos)

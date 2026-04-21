@@ -10,7 +10,6 @@ class FormViewModelEvent : ViewModel(){
     var fecha_hora by mutableStateOf("")
     var lugar by mutableStateOf("")
     var representante by mutableStateOf("")
-    var imagen by mutableStateOf("")
     var category by mutableStateOf("")
     
     var listEvent = mutableListOf<Event>()
@@ -20,7 +19,6 @@ class FormViewModelEvent : ViewModel(){
     var fechaHoraError by mutableStateOf<String?>(null)
     var lugarError by mutableStateOf<String?>(null)
     var representanteError by mutableStateOf<String?>(null)
-    var imagenError by mutableStateOf<String?>(null)
     var categoryError by mutableStateOf<String?>(null)
 
     init {
@@ -29,10 +27,10 @@ class FormViewModelEvent : ViewModel(){
 
     fun cargarDatos() {
         val datos = listOf(
-            Event(1, "Final Champions League", "2026-05-30 21:00", "Estadio Wembley", "UEFA", "https://example.com/champions.jpg", "Deportes"),
-            Event(2, "Concierto Dua Lipa", "2026-06-15 20:00", "Estadio Nacional", "Warner Music", "https://example.com/dualipa.jpg", "Musica"),
-            Event(3, "Lanzamiento Android 17", "2026-08-10 10:00", "Google HQ", "Google", "https://example.com/android.jpg", "Tecnologia"),
-            Event(4, "Feria Gastronomica", "2026-09-05 12:00", "Parque Bustamante", "Municipalidad", "", "Musica")
+            Event(1, "Final Champions League", "2026-05-30 21:00", "Estadio Wembley", "UEFA", "Conciertos"),
+            Event(2, "Concierto Dua Lipa", "2026-06-15 20:00", "Estadio Nacional", "Warner Music",  "Conciertos"),
+            Event(3, "Lanzamiento Android 17", "2026-08-10 10:00", "Google HQ", "Google",  "Talleres"),
+            Event(4, "Feria Gastronomica", "2026-09-05 12:00", "Parque Bustamante", "Municipalidad",  "Conferencias")
         )
 
         listEvent.addAll(datos)
@@ -45,8 +43,7 @@ class FormViewModelEvent : ViewModel(){
         fechaHoraError = if (fecha_hora.isBlank()) "Campo obligatorio" else null
         lugarError = if (lugar.isBlank()) "Campo obligatorio" else null
         representanteError = if (representante.isBlank()) "Campo obligatorio" else null
-        // La imagen ahora es opcional, no validamos si está vacía
-        imagenError = null 
+
         categoryError = if (category.isBlank()) "Seleccione una categoría" else null
 
         if (nombreError != null || fechaHoraError != null || lugarError != null || 
@@ -58,7 +55,7 @@ class FormViewModelEvent : ViewModel(){
     fun addEvent(){
         if(validar()) {
             ultimoid++
-            listEvent.add(Event(ultimoid, nombre, fecha_hora, lugar, representante, imagen, category))
+            listEvent.add(Event(ultimoid, nombre, fecha_hora, lugar, representante, category))
             resetForm()
         }
     }
@@ -68,7 +65,6 @@ class FormViewModelEvent : ViewModel(){
         fecha_hora = ""
         lugar = ""
         representante = ""
-        imagen = ""
         category = ""
     }
 }
@@ -79,6 +75,5 @@ class Event(
     val fecha_hora: String,
     val lugar: String,
     val representante: String,
-    val imagen: String,
     val category: String
 )

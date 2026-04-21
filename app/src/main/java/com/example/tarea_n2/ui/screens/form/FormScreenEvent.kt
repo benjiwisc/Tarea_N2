@@ -46,13 +46,9 @@ fun FormScreenEvent(
 
     Scaffold() { innerPadding ->
         Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(bottom = 24.dp),
+            modifier = Modifier.padding(innerPadding).fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
+            verticalArrangement = Arrangement.Center
         ) {
             Spacer(modifier = Modifier.size(24.dp))
             
@@ -67,7 +63,6 @@ fun FormScreenEvent(
 
             Spacer(modifier = Modifier.size(24.dp))
 
-            // Selector de Categoría
             Box(modifier = Modifier.fillMaxWidth(0.8f)) {
                 OutlinedTextField(
                     value = viewModel.category,
@@ -142,24 +137,12 @@ fun FormScreenEvent(
                 error = viewModel.representanteError
             )
 
-            Spacer(modifier = Modifier.size(16.dp))
-
-            InputForm(
-                label = "URL Imagen (opcional)",
-                value = viewModel.imagen,
-                onValueChange = { viewModel.imagen = it },
-                error = viewModel.imagenError
-            )
-
             Spacer(modifier = Modifier.size(32.dp))
 
             BotonForm(
                 texto = "Registrar Evento",
                 onClick = { 
                     viewModel.addEvent()
-                    if (viewModel.nombre.isEmpty() && viewModel.category.isEmpty()) {
-                        navController.navigate(Home) 
-                    }
                 }
             )
 

@@ -1,5 +1,6 @@
 package com.example.tarea_n2.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,9 +35,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.tarea_n2.R
 import com.example.tarea_n2.ui.screens.form.FormViewModelEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -89,11 +92,12 @@ fun DetailScreen(navController: NavController, eventId: Int, viewModel: FormView
                 InfoRow(icon = Icons.Default.LocationOn, label = "Lugar", value = it.lugar)
                 InfoRow(icon = Icons.Default.Person, label = "Representante", value = it.representante)
 
-                // Imagen al final si se agregó una (si no está vacía)
-                if (it.imagen.isNotBlank()) {
-                    Spacer(modifier = Modifier.height(24.dp))
-                    BoxPlaceholder(text = "Imagen: ${it.imagen}")
-                }
+                val imagen = painterResource(id = R.drawable.event)
+
+                Image(
+                    painter = imagen,
+                    contentDescription = null
+                )
             }
         } ?: run {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
